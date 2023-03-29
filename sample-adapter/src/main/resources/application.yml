@@ -1,0 +1,84 @@
+#server:
+#  port: 9290
+#  servlet.context-path: /camel
+#  undertow.max-http-post-size: 0
+grpc.server.port: 8001
+rest.camel.context-path: /camel-rest
+rest.camel.port: 9290
+camel:
+  springboot.name: RestCamel
+  dataformat:
+    jackson.auto-discover-object-mapper: true
+#    json-jackson:
+#      disable-features: WRITE_DATES_AS_TIMESTAMPS
+#      object-mapper: jacksonObjectMapper
+#  rest:
+#    host: /camel/*
+#    port: 9290
+#  servlet.mapping.context-path: /camel-rest/*
+timer.period: 2000
+camel.component.jms.connection-factory-type: XA
+camel.component.jms.transacted: true
+
+spring:
+  application.name: camel
+  main.allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+  jackson.default-property-inclusion: non_absent
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        enable_lazy_load_no_trans: true
+#        generate_statistics: true
+        jdbc:
+          batch_size: 1000
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        use-new-id-generator-mappings: true
+      mariadb.datasource.url: jdbc:mariadb://localhost:3308/sakila
+      mariadb.datasource.username: root
+      mariadb.datasource.password: 123456
+
+#  jpa.properties.hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.MariaDB103Dialect
+  datasource:
+    url: jdbc:mariadb://localhost:3308/sakila
+    username: root
+    password: 123456
+#    url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=sakila
+#    username: sa
+#    password: A!123456
+
+#ibm:
+#  mq:
+#    queueManager: QM1
+#    channel: DEV.ADMIN.SVRCONN
+#    connName: localhost(1414)
+#    user: admin
+#    password: passw0rd
+queues.queueDev1: DEV.QUEUE.1
+queues.queueDev2: DEV.QUEUE.2
+queue.selector.key: ADAPTER
+queue.selector.camel: CAMEL
+queue.selector.consumer: CONSUMER
+
+#logging:
+#  level:
+#    root: INFO
+#    web: DEBUG
+#    sql: DEBUG
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.FilterChainProxy: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

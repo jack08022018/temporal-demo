@@ -1,0 +1,32 @@
+server:
+  port: 9292
+  servlet.context-path: /orches
+  undertow.max-http-post-size: 0
+
+spring:
+  application.name: orches
+  main.allow-bean-definition-overriding: true
+  jackson.default-property-inclusion: non_absent
+#  profiles:
+#    include: temporal
+#    active: dev
+  config:
+    activate.on-profile: dev
+#    import: temporal
+#temporal:
+#  server: 127.0.0.1:7233
+#  timeout: 30
+#  worker:
+#    maxActivity: 5
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.FilterChainProxy: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
