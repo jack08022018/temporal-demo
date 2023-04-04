@@ -1,13 +1,13 @@
-package com.orches;
+package com.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrchesServiceApplication {
+public class OrchesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrchesServiceApplication.class, args);
+		SpringApplication.run(OrchesApplication.class, args);
 	}
 
 }

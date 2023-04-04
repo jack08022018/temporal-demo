@@ -2,7 +2,6 @@ package com.demo.config.jms;
 
 import com.demo.constant.AllFunction;
 import com.demo.dto.AdapterDto;
-import com.demo.dto.CompleteActivityDto;
 import com.demo.utils.CommonUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,16 +58,10 @@ public class AdapterConsumers implements JmsListenerConfigurer {
         try {
             var adapterDto = message.getBody(AdapterDto.class);
             log.info("lmid={} consume data response={}", adapterDto.getLmid(), customObjectMapper.writeValueAsString(adapterDto));
-            var completeActivityDto = CompleteActivityDto.builder()
-                    .lmid(adapterDto.getLmid())
-                    .workflowId(adapterDto.getWorkflowId())
-                    .activityId(adapterDto.getActivityId())
-                    .jsonData(adapterDto.getJsonData())
-                    .build();
             var headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            var request = new HttpEntity<>(completeActivityDto, headers);
-            customRestTemplate.postForObject(orchestratorUrl + "completeActivity/complete", request, JsonNode.class);
+            var request = new HttpEntity<>(adapterDto, headers);
+            customRestTemplate.postForObject(orchestratorUrl + "/completeActivity/complete", request, JsonNode.class);
         }catch (Exception e) {
             log.error("handleMessageConsume error={} message={}", e.getMessage(), message, e);
         }

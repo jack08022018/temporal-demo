@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.jboss.narayana.jta:narayana-jta:5.5.32.Final")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0-rc2")
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

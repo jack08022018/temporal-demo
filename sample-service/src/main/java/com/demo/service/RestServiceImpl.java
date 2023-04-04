@@ -16,14 +16,4 @@ import org.springframework.web.client.RestTemplate;
 public class RestServiceImpl implements RestService {
     final RestTemplate customRestTemplate;
 
-    @Value("${orchestrator.url}")
-    String orchestratorUrl;
-
-    @Override
-    public void excuteCompleteActivity(String params) {
-        var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        var request = new HttpEntity<>(params, headers);
-        customRestTemplate.postForObject(orchestratorUrl, request, JsonNode.class);
-    }
 }

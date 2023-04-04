@@ -12,7 +12,7 @@ activemq:
   listener.auto-startup: true
   url: tcp://localhost:61616
 
-orchestrator.url: http://localhost:8001/orches/
+orchestrator.url: http://localhost:8001/orches
 
 logging:
   level:

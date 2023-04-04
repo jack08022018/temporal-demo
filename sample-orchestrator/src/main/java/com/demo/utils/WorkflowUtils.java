@@ -34,7 +34,7 @@ public class WorkflowUtils {
                 .setWorkflowTaskTimeout(Duration.ofSeconds(temporalProperties.getWorkflowTaskTimeoutConfig()))
                 .setRetryOptions(RetryOptions.newBuilder()
                         .setMaximumAttempts(1)
-//                        .setDoNotRetry("com.demo.config.exceptions.NotRetryException")
+                        .setDoNotRetry("com.demo.config.exceptions.NotRetryException")
                         .build())
                 .build();
     }

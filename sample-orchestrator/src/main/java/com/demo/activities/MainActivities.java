@@ -1,6 +1,9 @@
 package com.demo.activities;
 
 import com.demo.config.exceptions.NotRetryException;
+import com.demo.constant.AllFunction;
+import com.demo.dto.base.ActivityResponse;
+import com.demo.dto.base.RequestDto;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
@@ -13,5 +16,5 @@ public interface MainActivities {
     void refund() throws NotRetryException;
 
     @ActivityMethod
-    String getData();
+    ActivityResponse getData(RequestDto dto, AllFunction allFunction);
 }

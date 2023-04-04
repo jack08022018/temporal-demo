@@ -2,18 +2,21 @@ package com.demo.activities;
 
 import com.demo.adapter.MainAdapter;
 import com.demo.config.exceptions.NotRetryException;
+import com.demo.constant.AllFunction;
+import com.demo.dto.base.ActivityResponse;
+import com.demo.dto.base.RequestDto;
+import com.demo.utils.CommonUtils;
+import com.google.gson.Gson;
 import io.temporal.activity.Activity;
 import io.temporal.activity.ActivityExecutionContext;
 import io.temporal.client.ActivityCompletionClient;
 import lombok.extern.slf4j.Slf4j;
 
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
-
 @Slf4j
 public class MainActivitiesImpl implements MainActivities {
     private final MainAdapter mainAdapter;
     private final ActivityCompletionClient completionClient;
+    final Gson gson = new Gson();
 
     public MainActivitiesImpl(MainAdapter mainAdapter, ActivityCompletionClient completionClient) {
         this.mainAdapter = mainAdapter;
@@ -40,29 +43,14 @@ public class MainActivitiesImpl implements MainActivities {
     }
 
     @Override
-    public String getData() {
+    public ActivityResponse getData(RequestDto dto, AllFunction allFunction) {
         ActivityExecutionContext context = Activity.getExecutionContext();
-//        byte[] taskToken = context.getTaskToken();
-        context.doNotCompleteOnReturn();
-        System.out.println("WorkflowId: \n" + context.getInfo().getWorkflowId());
-        System.out.println("ActivityId: \n" + context.getInfo().getActivityId());
-//        var dto = CompletionDto.builder()
-//                .activityId(context.getInfo().getActivityId())
-//                .workflowId(context.getInfo().getWorkflowId())
-//                .build();
-//        ForkJoinPool.commonPool().execute(() -> getData(dto));
-        return null;
-    }
-    private void composeGreetingAsync(byte[] taskToken) {
-        try {
-            TimeUnit.SECONDS.sleep(4);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        String str = new String(taskToken, StandardCharsets.UTF_8);
-        System.out.println("taskToken: " + str);
-        String info = mainAdapter.getInfo();
-        completionClient.complete(taskToken, info);
+        var activityRequest = CommonUtils.buidActivityRequest(dto, "", context, allFunction);
+        log.info("lmid={} activity=getData function={} retry={} StartToCloseTimeout={} request={}",
+                dto.lmid, allFunction.getFunctionName(), context.getInfo().getAttempt(),
+                context.getInfo().getStartToCloseTimeout(), gson.toJson(activityRequest));
+        var activityResponse = mainAdapter.getData(activityRequest);
+        return CommonUtils.handleActivity(context, activityResponse);
     }
 
 }

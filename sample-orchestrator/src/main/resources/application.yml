@@ -15,7 +15,7 @@ spring:
 #    import: temporal
 temporal:
   server: 127.0.0.1:7233
-#  namespace: 'os-dev'
+  #  namespace: 'os-dev'
   isUseSsl: false
   workflowTaskTimeoutConfig: 1
   workflowExecutionTimeout: 30
@@ -41,7 +41,7 @@ temporal:
     port: 9790
     sleep: 3000
 
-
+service.url: http://localhost:8002/service/
 
 logging:
   level:

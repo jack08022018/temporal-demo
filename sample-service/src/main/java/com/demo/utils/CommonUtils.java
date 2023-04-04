@@ -2,10 +2,11 @@ package com.demo.utils;
 
 import com.demo.constant.AllFunction;
 import com.demo.constant.ResponseStatus;
+import com.demo.dto.ActivityRequest;
+import com.demo.dto.ActivityResponse;
 import com.demo.dto.AdapterDto;
-import com.demo.dto.ServiceRequest;
-import com.demo.dto.ServiceResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.grpc.reflection.v1alpha.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.core.JmsTemplate;
@@ -24,7 +25,7 @@ public class CommonUtils {
         return FREFIX + "." + function.getFunctionName();
     }
 
-    public ServiceResponse sendMessageToAdapter(ServiceRequest request, AllFunction function) {
+    public ActivityResponse sendMessageToAdapter(ActivityRequest request, AllFunction function) {
         var functionName = request.getFunctionName();
         var lmid = request.getLmid();
         try {
@@ -43,13 +44,13 @@ public class CommonUtils {
                 messagePostProcessor.setStringProperty("TYPE", "REQUEST");
                 return messagePostProcessor;
             });
-            return ServiceResponse.builder()
+            return ActivityResponse.builder()
                     .responseCode(ResponseStatus.PROGRESSING.getCode())
                     .description(ResponseStatus.PROGRESSING.getDetail())
                     .build();
         }catch (Exception e) {
             log.error("lmid={} function={} message={}", lmid, functionName, e.getMessage(), e);
-            return ServiceResponse.builder()
+            return ActivityResponse.builder()
                     .responseCode(ResponseStatus.ERROR.getCode())
                     .description(e.getMessage())
                     .build();

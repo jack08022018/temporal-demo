@@ -1,8 +1,8 @@
 package com.demo.controller;
 
 
-import com.demo.dto.ActivityResult;
-import com.demo.dto.CompleteActivityDto;
+import com.demo.dto.base.ActivityResponse;
+import com.demo.dto.base.AdapterDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.temporal.client.WorkflowClient;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class CompleteActivityController {
     final ObjectMapper customObjectMapper;
 
     @PostMapping(value = "/complete")
-    public void complete(@RequestBody CompleteActivityDto dto) throws Exception {
+    public void complete(@RequestBody AdapterDto dto) throws Exception {
         try {
             log.info("lmid={} CompleteActivity request={}", dto.getLmid(), customObjectMapper.writeValueAsString(dto));
             var completionClient = workflowClient.newActivityCompletionClient();
-            var activityResult = customObjectMapper.readValue(dto.getJsonData(), ActivityResult.class);
+            var activityResult = customObjectMapper.readValue(dto.getJsonData(), ActivityResponse.class);
             completionClient.complete(dto.getWorkflowId(), Optional.empty(), dto.getActivityId(), activityResult);
         }catch (Exception e) {
             log.error("lmid={} CompleteActivity error message={}", dto.getLmid(), e.getMessage(), e);

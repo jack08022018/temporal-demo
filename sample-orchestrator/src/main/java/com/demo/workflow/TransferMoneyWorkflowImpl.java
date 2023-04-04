@@ -17,8 +17,8 @@ public class TransferMoneyWorkflowImpl implements TransferMoneyWorkflow {
         mainActivities.deduct();
 //        Promise<String> promise = Async.function(() -> transferActivities.getData());
 //        String info = promise.get();
-        String data = mainActivities.getData();
-        System.out.println("aaa: " + data);
+//        String data = mainActivities.getData();
+//        System.out.println("aaa: " + data);
         mainActivities.refund();
     }
 }
